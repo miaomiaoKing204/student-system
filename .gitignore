@@ -1,0 +1,38 @@
+# Java 编译产物
+*.class
+*.jar
+*.war
+*.ear
+target/
+classes/
+build/
+
+# IDE 配置（IDEA）
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Maven/Gradle
+.mvn/
+gradle/
+gradlew
+gradlew.bat
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# 日志
+logs/
+*.log
+
+# 临时文件
+*.tmp
+*.bak
+*.swp

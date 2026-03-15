@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentsystem.mapper.CourseMapper">
+
+    <resultMap id="courseResultMap" type="com.example.studentsystem.entity.Course">
+        <id property="id" column="id"/>
+        <result property="courseNo" column="course_no"/>
+        <result property="courseName" column="course_name"/>
+        <result property="credit" column="credit"/>
+        <result property="teacherName" column="teacher_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="courseResultMap">
+        SELECT * FROM course ORDER BY create_time DESC
+    </select>
+
+    <select id="findById" resultMap="courseResultMap">
+        SELECT * FROM course WHERE id = #{id}
+    </select>
+
+    <select id="findByCourseNo" resultMap="courseResultMap">
+        SELECT * FROM course WHERE course_no = #{courseNo}
+    </select>
+
+    <insert id="insert" parameterType="com.example.studentsystem.entity.Course"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO course (course_no, course_name, credit, teacher_name)
+        VALUES (#{courseNo}, #{courseName}, #{credit}, #{teacherName})
+    </insert>
+
+    <update id="update" parameterType="com.example.studentsystem.entity.Course">
+        UPDATE course SET
+                          course_no = #{courseNo},
+                          course_name = #{courseName},
+                          credit = #{credit},
+                          teacher_name = #{teacherName}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM course WHERE id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentsystem.mapper.ScoreMapper">
+
+    <resultMap id="scoreResultMap" type="com.example.studentsystem.entity.Score">
+        <id property="id" column="id"/>
+        <result property="studentId" column="student_id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="scoreValue" column="score_value"/>
+        <result property="semester" column="semester"/>
+        <result property="examTime" column="exam_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <!-- 关联字段 -->
+        <result property="studentName" column="student_name"/>
+        <result property="studentNo" column="student_no"/>
+        <result property="courseName" column="course_name"/>
+        <result property="className" column="class_name"/>
+    </resultMap>
+
+    <!-- 查询所有成绩（包含学生和课程信息） -->
+    <select id="findAllWithDetails" resultMap="scoreResultMap">
+        SELECT s.*,
+               st.name as student_name,
+               st.student_no,
+               c.course_name,
+               st.class_name
+        FROM score s
+                 LEFT JOIN student st ON s.student_id = st.id
+                 LEFT JOIN course c ON s.course_id = c.id
+        ORDER BY s.create_time DESC
+    </select>
+
+    <!-- 根据学生ID查询成绩 -->
+    <select id="findByStudentId" resultMap="scoreResultMap">
+        SELECT s.*,
+               st.name as student_name,
+               st.student_no,
+               c.course_name,
+               st.class_name
+        FROM score s
+                 LEFT JOIN student st ON s.student_id = st.id
+                 LEFT JOIN course c ON s.course_id = c.id
+        WHERE s.student_id = #{studentId}
+        ORDER BY s.create_time DESC
+    </select>
+
+    <!-- 根据课程ID查询成绩 -->
+    <select id="findByCourseId" resultMap="scoreResultMap">
+        SELECT s.*,
+               st.name as student_name,
+               st.student_no,
+               c.course_name,
+               st.class_name
+        FROM score s
+                 LEFT JOIN student st ON s.student_id = st.id
+                 LEFT JOIN course c ON s.course_id = c.id
+        WHERE s.course_id = #{courseId}
+        ORDER BY s.create_time DESC
+    </select>
+
+    <!-- 根据学期查询成绩 -->
+    <select id="findBySemester" resultMap="scoreResultMap">
+        SELECT s.*,
+               st.name as student_name,
+               st.student_no,
+               c.course_name,
+               st.class_name
+        FROM score s
+                 LEFT JOIN student st ON s.student_id = st.id
+                 LEFT JOIN course c ON s.course_id = c.id
+        WHERE s.semester = #{semester}
+        ORDER BY s.create_time DESC
+    </select>
+
+    <insert id="insert" parameterType="com.example.studentsystem.entity.Score"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO score (student_id, course_id, score_value, semester, exam_time)
+        VALUES (#{studentId}, #{courseId}, #{scoreValue}, #{semester}, #{examTime})
+    </insert>
+
+    <update id="update" parameterType="com.example.studentsystem.entity.Score">
+        UPDATE score SET
+                         student_id = #{studentId},
+                         course_id = #{courseId},
+                         score_value = #{scoreValue},
+                         semester = #{semester},
+                         exam_time = #{examTime}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM score WHERE id = #{id}
+    </delete>
+</mapper>
